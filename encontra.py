@@ -27,32 +27,30 @@ def formated_size(size):
         size /= peta
         text = 'PB'
     size = round(size, 2)
-    return f'{size} {text}'
+    return f'{size} {text}'.replace('.', ',')
 
 
-find_path = '/home/lucasmonteirodecastro/Downloads'
-find_expression = 'bbb'
-count = 0
-for root, directory, files in os.walk(find_path):
-    for file in files:
-        if find_expression in file:
-            try:
-                count += 1
-                full_path = os.path.join(root, file)
-                file_name, ext_file = os.path.splitext(file)
-                size = os.path.getsize(full_path)
-                size_correted = formated_size(size)
-                print()
-                print("I find your file: ", file)
-                print("Name: ", file_name)
-                print("Path: ", full_path)
-                print("Extension: ", ext_file)
-                print(f"Size: {size_correted} ({size} B)")
-            except PermissionError as e:
-                print('No permission')
-            except FileNotFoundError as e:
-                print('File not found')
-            except Exception as e:
-                print('Unknown error')
-print()
-print(f'Finded results {count}')
+def find_files(find_path='', find_expression='', count=0):
+    for root, directory, files in os.walk(find_path):
+        for file in files:
+            if find_expression in file:
+                try:
+                    count += 1
+                    full_path = os.path.join(root, file)
+                    file_name, ext_file = os.path.splitext(file)
+                    size = os.path.getsize(full_path)
+                    size_correted = formated_size(size)
+                    print()
+                    print("I find your file: ", file)
+                    print("Name: ", file_name)
+                    print("Path: ", full_path)
+                    print("Extension: ", ext_file)
+                    print(f"Size: {size_correted} ({size} B)")
+                except PermissionError as e:
+                    print('No permission')
+                except FileNotFoundError as e:
+                    print('File not found')
+                except Exception as e:
+                    print('Unknown error')
+    print()
+    print(f'Finded results {count}')
